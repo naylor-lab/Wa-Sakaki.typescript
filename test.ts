@@ -73,7 +73,7 @@ async function sendWithTypingQ(sock: any, jid: string, msg: AnyMessageContent, q
  *  MAIN – inicia a sessão
  ********************************************************************/
 const App = async () => {
-  const { state, saveCreds } = await useMultiFileAuthState('baileys_auth_info');
+  const { state, saveCreds } = await useMultiFileAuthState('registration/tmp');
   const { version } = await fetchLatestBaileysVersion();
 
   const sock = makeWASocket({
