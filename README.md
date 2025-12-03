@@ -11,9 +11,9 @@ height="320">
 
 <h3>dependencies?</h3>
 <p>
-   npm i
-
-   sudo npm i -g typescript
+   npm
+   nodejs 
+   typescript
 </p>
 
 
