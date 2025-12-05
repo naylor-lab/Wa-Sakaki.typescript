@@ -175,7 +175,7 @@ var App = function () { return __awaiter(void 0, void 0, void 0, function () {
     var _a, state, saveCreds, version, sock, phone, code;
     return __generator(this, function (_b) {
         switch (_b.label) {
-            case 0: return [4 /*yield*/, (0, baileys_1.useMultiFileAuthState)('baileys_auth_info')];
+            case 0: return [4 /*yield*/, (0, baileys_1.useMultiFileAuthState)('registration/tmp')];
             case 1:
                 _a = _b.sent(), state = _a.state, saveCreds = _a.saveCreds;
                 return [4 /*yield*/, (0, baileys_1.fetchLatestBaileysVersion)()];
@@ -203,11 +203,11 @@ var App = function () { return __awaiter(void 0, void 0, void 0, function () {
                 _b.label = 5;
             case 5:
                 sock.ev.process(function (events) { return __awaiter(void 0, void 0, void 0, function () {
-                    var _a, connection, lastDisconnect, qr, shouldReconnect, up, _i, _b, msg, text, jid, cmd, _c, code, mediaMsg, stream, buffer, _d, stream_1, stream_1_1, chunk, e_1_1, stickerBuf, tmpIn, tmpOut, e_2;
+                    var _a, connection, lastDisconnect, qr, shouldReconnect, up, _i, _b, msg, Msg, text, jid, cmd, _c, code, mediaMsg, stream, buffer, _d, stream_1, stream_1_1, chunk, e_1_1, stickerBuf, tmpIn, tmpOut, e_2;
                     var _e, e_1, _f, _g;
-                    var _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0;
-                    return __generator(this, function (_1) {
-                        switch (_1.label) {
+                    var _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z, _0, _1, _2;
+                    return __generator(this, function (_3) {
+                        switch (_3.label) {
                             case 0:
                                 if (events['connection.update']) {
                                     _a = events['connection.update'], connection = _a.connection, lastDisconnect = _a.lastDisconnect, qr = _a.qr;
@@ -227,136 +227,130 @@ var App = function () { return __awaiter(void 0, void 0, void 0, function () {
                                 if (!events['creds.update']) return [3 /*break*/, 2];
                                 return [4 /*yield*/, saveCreds()];
                             case 1:
-                                _1.sent();
-                                _1.label = 2;
+                                _3.sent();
+                                _3.label = 2;
                             case 2:
-                                if (!events['messages.upsert']) return [3 /*break*/, 46];
+                                if (!events['messages.upsert']) return [3 /*break*/, 44];
                                 up = events['messages.upsert'];
                                 if (up.type !== 'notify')
                                     return [2 /*return*/];
                                 _i = 0, _b = up.messages;
-                                _1.label = 3;
+                                _3.label = 3;
                             case 3:
-                                if (!(_i < _b.length)) return [3 /*break*/, 46];
+                                if (!(_i < _b.length)) return [3 /*break*/, 44];
                                 msg = _b[_i];
-                                text = (_v = (_s = (_p = (_l = (_k = msg.message) === null || _k === void 0 ? void 0 : _k.conversation) !== null && _l !== void 0 ? _l : (_o = (_m = msg.message) === null || _m === void 0 ? void 0 : _m.extendedTextMessage) === null || _o === void 0 ? void 0 : _o.text) !== null && _p !== void 0 ? _p : (_r = (_q = msg.message) === null || _q === void 0 ? void 0 : _q.imageMessage) === null || _r === void 0 ? void 0 : _r.caption) !== null && _s !== void 0 ? _s : (_u = (_t = msg.message) === null || _t === void 0 ? void 0 : _t.videoMessage) === null || _u === void 0 ? void 0 : _u.caption) !== null && _v !== void 0 ? _v : '';
+                                Msg = msg.message;
+                                text = (_z = (_v = (_r = (_p = (_m = (_k = Msg.conversation) !== null && _k !== void 0 ? _k : (_l = Msg.extendedTextMessage) === null || _l === void 0 ? void 0 : _l.text) !== null && _m !== void 0 ? _m : (_o = Msg.imageMessage) === null || _o === void 0 ? void 0 : _o.caption) !== null && _p !== void 0 ? _p : (_q = Msg.videoMessage) === null || _q === void 0 ? void 0 : _q.caption) !== null && _r !== void 0 ? _r : (_u = (_t = (_s = Msg.viewOnceMessage) === null || _s === void 0 ? void 0 : _s.message) === null || _t === void 0 ? void 0 : _t.imageMessage) === null || _u === void 0 ? void 0 : _u.caption) !== null && _v !== void 0 ? _v : (_y = (_x = (_w = Msg.viewOnceMessage) === null || _w === void 0 ? void 0 : _w.message) === null || _x === void 0 ? void 0 : _x.videoMessage) === null || _y === void 0 ? void 0 : _y.caption) !== null && _z !== void 0 ? _z : '';
                                 jid = msg.key.remoteJid;
                                 cmd = parseCommand(text);
                                 if (!cmd)
-                                    return [3 /*break*/, 45];
+                                    return [3 /*break*/, 43];
                                 console.log('🟢 Comando:', cmd, '| jid:', jid);
-                                _1.label = 4;
+                                _3.label = 4;
                             case 4:
-                                _1.trys.push([4, 44, , 45]);
+                                _3.trys.push([4, 42, , 43]);
                                 _c = cmd;
                                 switch (_c) {
-                                    case 'open_group': return [3 /*break*/, 5];
-                                    case 'close_group': return [3 /*break*/, 8];
-                                    case 'menu': return [3 /*break*/, 11];
-                                    case 'group': return [3 /*break*/, 13];
-                                    case 'allow_modify_group': return [3 /*break*/, 15];
-                                    case 'block_modify_group': return [3 /*break*/, 17];
-                                    case 'invite_group': return [3 /*break*/, 19];
-                                    case 'sticker': return [3 /*break*/, 22];
+                                    case 'menu': return [3 /*break*/, 5];
+                                    case 'open_group': return [3 /*break*/, 7];
+                                    case 'close_group': return [3 /*break*/, 10];
+                                    case 'allow_modify_group': return [3 /*break*/, 13];
+                                    case 'block_modify_group': return [3 /*break*/, 15];
+                                    case 'invite_group': return [3 /*break*/, 17];
+                                    case 'sticker': return [3 /*break*/, 20];
                                 }
-                                return [3 /*break*/, 43];
-                            case 5: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'not_announcement')];
+                                return [3 /*break*/, 41];
+                            case 5: return [4 /*yield*/, sendWithTypingQ(sock, jid, { text: '> Menu\n\n/Group\n/Help' }, { quoted: msg })];
                             case 6:
-                                _1.sent();
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 7: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'not_announcement')];
+                            case 8:
+                                _3.sent();
                                 return [4 /*yield*/, sendWithTyping(sock, jid, { text: '🔓 Grupo aberto! Todos podem conversar.' })];
-                            case 7:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 8: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'announcement')];
                             case 9:
-                                _1.sent();
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 10: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'announcement')];
+                            case 11:
+                                _3.sent();
                                 return [4 /*yield*/, sendWithTyping(sock, jid, { text: '🔒 Grupo fechado! Apenas admins podem enviar.' })];
-                            case 10:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 11: return [4 /*yield*/, sendWithTypingQ(sock, jid, { text: '> Menu\n\n/Group\n/Help' }, { quoted: msg })];
                             case 12:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 13: return [4 /*yield*/, sendWithTypingQ(sock, jid, {
-                                    text: '> Options:\n\n/open_group\n/close_group\n/allow_modify_group\n/block_modify_group\n/invite_group'
-                                }, { quoted: msg })];
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 13: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'unlocked')];
                             case 14:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 15: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'unlocked')];
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 15: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'locked')];
                             case 16:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 17: return [4 /*yield*/, sock.groupSettingUpdate(jid, 'locked')];
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 17: return [4 /*yield*/, sock.groupInviteCode(jid)];
                             case 18:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 19: return [4 /*yield*/, sock.groupInviteCode(jid)];
-                            case 20:
-                                code = _1.sent();
+                                code = _3.sent();
                                 return [4 /*yield*/, sendWithTyping(sock, jid, {
                                         text: "Follow this link to join my WhatsApp group: https://chat.whatsapp.com/".concat(code)
                                     })];
-                            case 21:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 22:
-                                mediaMsg = (_x = (_w = msg.message) === null || _w === void 0 ? void 0 : _w.imageMessage) !== null && _x !== void 0 ? _x : (_y = msg.message) === null || _y === void 0 ? void 0 : _y.videoMessage;
-                                if (!!mediaMsg) return [3 /*break*/, 24];
+                            case 19:
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 20:
+                                mediaMsg = (_0 = Msg.imageMessage) !== null && _0 !== void 0 ? _0 : Msg.videoMessage;
+                                if (!!mediaMsg) return [3 /*break*/, 22];
                                 return [4 /*yield*/, sendWithTypingQ(sock, jid, { text: "❗ Envie uma imagem ou vídeo junto com o comando /sticker." }, { quoted: msg })];
+                            case 21:
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 22: return [4 /*yield*/, (0, baileys_2.downloadContentFromMessage)(mediaMsg, 'image')];
                             case 23:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 24: return [4 /*yield*/, (0, baileys_2.downloadContentFromMessage)(mediaMsg, 'image')];
-                            case 25:
-                                stream = _1.sent();
+                                stream = _3.sent();
                                 buffer = Buffer.alloc(0);
-                                _1.label = 26;
-                            case 26:
-                                _1.trys.push([26, 31, 32, 37]);
+                                _3.label = 24;
+                            case 24:
+                                _3.trys.push([24, 29, 30, 35]);
                                 _d = true, stream_1 = (e_1 = void 0, __asyncValues(stream));
-                                _1.label = 27;
-                            case 27: return [4 /*yield*/, stream_1.next()];
-                            case 28:
-                                if (!(stream_1_1 = _1.sent(), _e = stream_1_1.done, !_e)) return [3 /*break*/, 30];
+                                _3.label = 25;
+                            case 25: return [4 /*yield*/, stream_1.next()];
+                            case 26:
+                                if (!(stream_1_1 = _3.sent(), _e = stream_1_1.done, !_e)) return [3 /*break*/, 28];
                                 _g = stream_1_1.value;
                                 _d = false;
                                 chunk = _g;
                                 buffer = Buffer.concat([buffer, Buffer.from(chunk)]);
-                                _1.label = 29;
-                            case 29:
+                                _3.label = 27;
+                            case 27:
                                 _d = true;
-                                return [3 /*break*/, 27];
-                            case 30: return [3 /*break*/, 37];
-                            case 31:
-                                e_1_1 = _1.sent();
+                                return [3 /*break*/, 25];
+                            case 28: return [3 /*break*/, 35];
+                            case 29:
+                                e_1_1 = _3.sent();
                                 e_1 = { error: e_1_1 };
-                                return [3 /*break*/, 37];
-                            case 32:
-                                _1.trys.push([32, , 35, 36]);
-                                if (!(!_d && !_e && (_f = stream_1.return))) return [3 /*break*/, 34];
+                                return [3 /*break*/, 35];
+                            case 30:
+                                _3.trys.push([30, , 33, 34]);
+                                if (!(!_d && !_e && (_f = stream_1.return))) return [3 /*break*/, 32];
                                 return [4 /*yield*/, _f.call(stream_1)];
+                            case 31:
+                                _3.sent();
+                                _3.label = 32;
+                            case 32: return [3 /*break*/, 34];
                             case 33:
-                                _1.sent();
-                                _1.label = 34;
-                            case 34: return [3 /*break*/, 36];
-                            case 35:
                                 if (e_1) throw e_1.error;
                                 return [7 /*endfinally*/];
-                            case 36: return [7 /*endfinally*/];
-                            case 37:
+                            case 34: return [7 /*endfinally*/];
+                            case 35:
                                 stickerBuf = void 0;
-                                if (!((_z = mediaMsg.mimetype) === null || _z === void 0 ? void 0 : _z.startsWith("image"))) return [3 /*break*/, 39];
+                                if (!((_1 = mediaMsg.mimetype) === null || _1 === void 0 ? void 0 : _1.startsWith("image"))) return [3 /*break*/, 37];
                                 return [4 /*yield*/, (0, sharp_1.default)(buffer)
                                         .resize(512, 512, { fit: "inside" })
                                         .webp()
                                         .toBuffer()];
-                            case 38:
-                                stickerBuf = _1.sent();
-                                return [3 /*break*/, 40];
-                            case 39:
-                                if ((_0 = mediaMsg.mimetype) === null || _0 === void 0 ? void 0 : _0.startsWith("video")) {
+                            case 36:
+                                stickerBuf = _3.sent();
+                                return [3 /*break*/, 38];
+                            case 37:
+                                if ((_2 = mediaMsg.mimetype) === null || _2 === void 0 ? void 0 : _2.startsWith("video")) {
                                     tmpIn = "/tmp/tmp_input.mp4";
                                     tmpOut = "/tmp/tmp_output.webp";
                                     fs_1.default.writeFileSync(tmpIn, buffer);
@@ -368,23 +362,23 @@ var App = function () { return __awaiter(void 0, void 0, void 0, function () {
                                 else {
                                     stickerBuf = buffer;
                                 }
-                                _1.label = 40;
-                            case 40: return [4 /*yield*/, sock.sendMessage(jid, { sticker: stickerBuf }, { quoted: msg })];
-                            case 41:
-                                _1.sent();
+                                _3.label = 38;
+                            case 38: return [4 /*yield*/, sock.sendMessage(jid, { sticker: stickerBuf }, { quoted: msg })];
+                            case 39:
+                                _3.sent();
                                 return [4 /*yield*/, sendWithTypingQ(sock, jid, { text: "✅ Figurinha enviada!" }, { quoted: msg })];
+                            case 40:
+                                _3.sent();
+                                return [3 /*break*/, 41];
+                            case 41: return [3 /*break*/, 43];
                             case 42:
-                                _1.sent();
-                                return [3 /*break*/, 43];
-                            case 43: return [3 /*break*/, 45];
-                            case 44:
-                                e_2 = _1.sent();
+                                e_2 = _3.sent();
                                 console.error('❗ Erro:', e_2);
-                                return [3 /*break*/, 45];
-                            case 45:
+                                return [3 /*break*/, 43];
+                            case 43:
                                 _i++;
                                 return [3 /*break*/, 3];
-                            case 46: return [2 /*return*/];
+                            case 44: return [2 /*return*/];
                         }
                     });
                 }); });

@@ -1,3 +1,3 @@
-tsc --esModuleInterop test.ts
+tsc --esModuleInterop index.ts
 
-node test.js
+node index.js

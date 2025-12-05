@@ -69,6 +69,7 @@ async function sendWithTypingQ(sock: any, jid: string, msg: AnyMessageContent, q
   await sock.sendMessage(jid, msg, { quoted });
 }
 
+
 /********************************************************************
  *  MAIN – inicia a sessão
  ********************************************************************/
@@ -115,13 +116,18 @@ const App = async () => {
     if (events['messages.upsert']) {
       const up = events['messages.upsert'];
       if (up.type !== 'notify') return;
-
+      
       for (const msg of up.messages) {
+
+        const Msg = msg.message;
+
         const text =
-          msg.message?.conversation ??
-          msg.message?.extendedTextMessage?.text ??
-          msg.message?.imageMessage?.caption ??
-          msg.message?.videoMessage?.caption ??
+          Msg.conversation ??
+          Msg.extendedTextMessage?.text ??
+          Msg.imageMessage?.caption ??
+          Msg.videoMessage?.caption ??
+    	  Msg.viewOnceMessage?.message?.imageMessage?.caption ??
+	      Msg.viewOnceMessage?.message?.videoMessage?.caption ??
           '';
         const jid = msg.key.remoteJid!;
         const cmd = parseCommand(text);
@@ -131,6 +137,11 @@ const App = async () => {
 
         try {
           switch (cmd) {
+
+           case 'menu':
+           await sendWithTypingQ(sock, jid, { text: '> Menu\n\n/Group\n/Help' }, { quoted: msg });
+           break;
+          
             case 'open_group':
               await sock.groupSettingUpdate(jid, 'not_announcement');
               await sendWithTyping(sock, jid, { text: '🔓 Grupo aberto! Todos podem conversar.' });
@@ -138,14 +149,6 @@ const App = async () => {
             case 'close_group':
               await sock.groupSettingUpdate(jid, 'announcement');
               await sendWithTyping(sock, jid, { text: '🔒 Grupo fechado! Apenas admins podem enviar.' });
-              break;
-            case 'menu':
-              await sendWithTypingQ(sock, jid, { text: '> Menu\n\n/Group\n/Help' }, { quoted: msg });
-              break;
-            case 'group':
-              await sendWithTypingQ(sock, jid, {
-                text: '> Options:\n\n/open_group\n/close_group\n/allow_modify_group\n/block_modify_group\n/invite_group'
-              }, { quoted: msg });
               break;
             case 'allow_modify_group':
               await sock.groupSettingUpdate(jid, 'unlocked');
@@ -159,8 +162,13 @@ const App = async () => {
                 text: `Follow this link to join my WhatsApp group: https://chat.whatsapp.com/${code}`
               });
               break;
+
+
+         // Pv & Group: //     
             case 'sticker': {
-              const mediaMsg = msg.message?.imageMessage ?? msg.message?.videoMessage;
+
+              const mediaMsg = Msg.imageMessage ?? Msg.videoMessage;
+
               if (!mediaMsg) {
                 await sendWithTypingQ(sock, jid, { text: "❗ Envie uma imagem ou vídeo junto com o comando /sticker." }, { quoted: msg });
                 break;
