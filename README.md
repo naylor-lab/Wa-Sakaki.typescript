@@ -10,11 +10,9 @@ height="320">
 <h2>instructions:</h2>
 
 <h3>dependencies?</h3>
-<p>
-   npm
-   nodejs 
-   typescript
-</p>
+<p> npm </p>
+<p> nodejs </p>
+<p> typescript </p>
 
 
 <h4>how to compile:</h4>
